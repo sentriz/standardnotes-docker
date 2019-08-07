@@ -15,11 +15,11 @@ RUN \
 	ruby-json \
 	ruby-etc \
 	ruby-bigdecimal && \
-  git clone https://github.com/standardnotes/web.git /stdnotes && \
+  git clone --recursive https://github.com/standardnotes/web.git /stdnotes && \
+  cd /stdnotes && \
   gem install -N \
       rails \
       bundler:1.17.1 && \
-  cd /stdnotes && \
   npm run build && \
   apk del build-dependencies && \
   rm -rf \
@@ -30,4 +30,7 @@ RUN \
       /stdnotes/.git
 EXPOSE 3000
 WORKDIR /stdnotes
-ENTRYPOINT ["bundle", "exec", "rails", "s"]
+ENV EXTENSIONS_MANAGER_LOCATION=extensions/extensions-manager/dist/index.html
+ENV BATCH_MANAGER_LOCATION=extensions/batch-manager/dist/index.min.html
+COPY entrypoint /
+ENTRYPOINT ["/entrypoint"]
