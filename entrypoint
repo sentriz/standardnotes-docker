@@ -1,4 +1,4 @@
 #!/bin/sh
 
-bundle exec rails s
+bundle exec rails s --binding '0.0.0.0'
 rm /stdnotes/tmp/pids/server.pid
